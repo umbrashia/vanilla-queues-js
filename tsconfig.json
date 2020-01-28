@@ -1,0 +1,17 @@
+{
+	"compileOnSave": true,
+    	"compilerOptions": {
+       
+        "allowJs": true,
+        "target": "es5",
+        "noImplicitAny": true,
+        "sourceMap": true,
+        "downlevelIteration": true,
+        "outDir":""
+    },
+    "exclude": [
+        "node_modules",
+        "static"
+    ]
+    
+}
