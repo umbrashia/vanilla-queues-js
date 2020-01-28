@@ -1,0 +1,30 @@
+{
+  "name": "vanilla-queues-js",
+  "version": "1.0.0",
+  "description": "create jobs in queues this can be handle in node, typescript, angular, react, vue, and all js based framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umbrashia/vanilla-queues-js.git"
+  },
+  "keywords": [
+    "que",
+    "queues js",
+    "job",
+    "queues",
+    "vanilla js queues",
+    "angular queues",
+    "react  queues",
+    "nodejs  queues",
+    "typescript queues"
+  ],
+  "author": "Shantanu Sharma",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/umbrashia/vanilla-queues-js/issues"
+  },
+  "homepage": "https://github.com/umbrashia/vanilla-queues-js#readme"
+}
