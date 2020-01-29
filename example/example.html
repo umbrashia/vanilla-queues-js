@@ -31,7 +31,7 @@
                 // Ajax ------------------------------
                 setTimeout(function () {
                     $(".blog").append(" ("+data+"------> executed ---->"+counter+")");
-                    vanilaQue.jobDone();
+                    vanilaQue.jobDone();// -------> Call to NEXT JOB
                 }, Math.floor(Math.random() * 3000) + 1000); // time out execute 1 sec to 3 sec random number in milisecond
                 //----------------------------------------
             }, index);
