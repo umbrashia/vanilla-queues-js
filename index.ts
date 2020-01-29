@@ -90,22 +90,22 @@ class VanillaQueues<returnType> implements IVanillaQueues<returnType> {
 
 }
 
-// export { VanillaQueues, queueCallback, IVanillaQueues };
+export { VanillaQueues, queueCallback, IVanillaQueues };
 
-let vanilaQue = new VanillaQueues<number>(1);
-for (let index = 0; index < 10; index++) {
-    vanilaQue.addJob((data, counter) => {
-        setTimeout(() => {
-            console.log(data, "------> executed ---->", counter);
-            vanilaQue.jobDone();
-        }, Math.floor(Math.random() * 3000) + 1000);//Math.floor(Math.random() * 2000) +
-    }, index);
-}
+// let vanilaQue = new VanillaQueues<number>(1);
+// for (let index = 0; index < 10; index++) {
+//     vanilaQue.addJob((data, counter) => {
+//         setTimeout(() => {
+//             console.log(data, "------> executed ---->", counter);
+//             vanilaQue.jobDone();
+//         }, Math.floor(Math.random() * 3000) + 1000);//Math.floor(Math.random() * 2000) +
+//     }, index);
+// }
 
-vanilaQue.isDone(() => {
-    console.log("oeeeeee done...");
+// vanilaQue.isDone(() => {
+//     console.log("oeeeeee done...");
 
-});
+// });
 
-vanilaQue.runJobs();
+// vanilaQue.runJobs();
 

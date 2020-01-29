@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 
@@ -15,7 +14,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-    <script src="../dist/image-lazy-loader-vanilla.js"></script>
+    <script src="../dist/vanilla-queues.js"></script>
 </head>
 
 <body>
@@ -23,51 +22,27 @@
 
     <div class="blog">
 
-
-        <a href="static/frontend/blog-detail.html" class="block3-img dis-block hov-img-zoom">
-            <img class="img-fluid lazy" data-src="https://picsum.photos/seed/picsum/400/300?123489879" alt="IMG-BLOG">
-        </a><br />
-
-        <a href="static/frontend/blog-detail.html" class="block3-img dis-block hov-img-zoom">
-            <img class="img-fluid lazy" data-src="https://picsum.photos/seed/picsum/400/300?123489879" alt="IMG-BLOG">
-        </a><br />
-
-        <a href="static/frontend/blog-detail.html" class="block3-img dis-block hov-img-zoom">
-            <img class="img-fluid lazy" data-src="https://picsum.photos/seed/picsum/400/300?123489879" alt="IMG-BLOG">
-        </a><br />
-
-        <a href="static/frontend/blog-detail.html" class="block3-img dis-block hov-img-zoom">
-            <img class="img-fluid lazy" data-src="https://picsum.photos/seed/picsum/400/300?123489879" alt="IMG-BLOG">
-        </a><br />
-        <a href="static/frontend/blog-detail.html" class="block3-img dis-block hov-img-zoom">
-            <img class="img-fluid lazy" data-src="https://picsum.photos/seed/picsum/400/300?123489879" alt="IMG-BLOG">
-        </a><br />
-        <a href="static/frontend/blog-detail.html" class="block3-img dis-block hov-img-zoom">
-            <img class="img-fluid lazy" data-src="https://picsum.photos/seed/picsum/400/300?123489879" alt="IMG-BLOG">
-        </a><br />
-        <a href="static/frontend/blog-detail.html" class="block3-img dis-block hov-img-zoom">
-            <img class="img-fluid lazy" data-src="https://picsum.photos/seed/picsum/400/300?123489879" alt="IMG-BLOG">
-        </a><br />
-        <a href="static/frontend/blog-detail.html" class="block3-img dis-block hov-img-zoom">
-            <img class="img-fluid lazy" data-src="https://picsum.photos/seed/picsum/400/300?123489879" alt="IMG-BLOG">
-        </a><br />
-        <a href="static/frontend/blog-detail.html" class="block3-img dis-block hov-img-zoom">
-            <img class="img-fluid lazy" data-src="https://picsum.photos/seed/picsum/400/300?123489879" alt="IMG-BLOG">
-        </a><br />
-        <a href="static/frontend/blog-detail.html" class="block3-img dis-block hov-img-zoom">
-            <img class="img-fluid lazy" data-src="https://picsum.photos/seed/picsum/400/300?123489879" alt="IMG-BLOG">
-        </a><br />
-        <a href="static/frontend/blog-detail.html" class="block3-img dis-block hov-img-zoom">
-            <img class="img-fluid lazy" data-src="https://picsum.photos/seed/picsum/400/300?123489879" alt="IMG-BLOG">
-        </a><br />
     </div>
 
     <script>
-        var vanillaLazyImageObj = new VanillaLazyImage();
-        vanillaLazyImageObj.selectorName=".blog img.lazy";
-        vanillaLazyImageObj.applyLazyLoader();
+        var vanilaQue = new VanillaQueues(10);
+        for (var index = 0; index < 100; index++) {
+            vanilaQue.addJob(function (data, counter) {
+                // Ajax ------------------------------
+                setTimeout(function () {
+                    $(".blog").append(" ("+data+"------> executed ---->"+counter+")");
+                    vanilaQue.jobDone();
+                }, Math.floor(Math.random() * 3000) + 1000); // time out execute 1 sec to 3 sec random number in milisecond
+                //----------------------------------------
+            }, index);
+        }
+        vanilaQue.isDone(function () {
+            $(".blog").append("<br/><br/> <b style='color:green'>All Queues are done...</b>");
+        });
+        vanilaQue.runJobs();
+//# sourceMappingURL=index.js.map
     </script>
 
 </body>
 
-</html>k
+</html>

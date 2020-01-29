@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var VanillaQueues = /** @class */ (function () {
     function VanillaQueues(queueCountInit) {
         if (queueCountInit && parseInt(queueCountInit.toString()) >= 1)
@@ -45,18 +43,4 @@ var VanillaQueues = /** @class */ (function () {
     });
     return VanillaQueues;
 }());
-exports.VanillaQueues = VanillaQueues;
-// let vanilaQue = new VanillaQueues<number>(1);
-// for (let index = 0; index < 10; index++) {
-//     vanilaQue.addJob((data, counter) => {
-//         setTimeout(() => {
-//             console.log(data, "------> executed ---->", counter);
-//             vanilaQue.jobDone();
-//         }, Math.floor(Math.random() * 3000) + 1000);//Math.floor(Math.random() * 2000) +
-//     }, index);
-// }
-// vanilaQue.isDone(() => {
-//     console.log("oeeeeee done...");
-// });
-// vanilaQue.runJobs();
-//# sourceMappingURL=index.js.map
+// export { VanillaQueues, queueCallback, IVanillaQueues };
