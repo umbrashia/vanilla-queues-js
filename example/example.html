@@ -14,10 +14,33 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+    <style>
+        p {
+            border: 1px solid black;
+            padding: 5px;
+            float: left;
+            margin-left: 10px;
+            width: 150px;
+            font-size: 15px;
+        }
+    </style>
     <script src="../dist/vanilla-queues.js"></script>
 </head>
 
 <body>
+
+    <center>
+        <h1>Demo of Vanila-Queues-Js</h1>
+        <hr />
+        <fieldset>
+            <form action="get" onsubmit="return executeThreads()">
+                Tasks : <input type="number" id="taskCount" min="1" max="1000" value="100" required />
+                Threads : <input type="number" id="threadCount"  min="1" max="1000" value="10" required />
+                <button>Save & Execute</button>
+            </form>
+        </fieldset>
+        <br/>
+    </center>
 
 
     <div class="blog">
@@ -25,21 +48,32 @@
     </div>
 
     <script>
-        var vanilaQue = new VanillaQueues(10);
-        for (var index = 0; index < 100; index++) {
-            vanilaQue.addJob(function (data, counter) {
-                // Ajax ------------------------------
-                setTimeout(function () {
-                    $(".blog").append(" ("+data+"------> executed ---->"+counter+")");
-                    vanilaQue.jobDone();// -------> Call to NEXT JOB
-                }, Math.floor(Math.random() * 3000) + 1000); // time out execute 1 sec to 3 sec random number in milisecond
-                //----------------------------------------
-            }, index);
+        function executeThreads() {
+            $(".blog").html("");
+            var vanilaQue = new VanillaQueues(parseInt($("#threadCount").val().toString()));
+            for (var index = 1; index <= parseInt($("#taskCount").val().toString()); index++) {
+                var temp = document.createElement("p");
+                temp.innerHTML = "Task " + (index) + " : <b style='color:orange'>Hold</b>";
+                $(".blog").append(temp);
+                vanilaQue.addJob(function (data, counter) {
+
+                    $(data.inputObj).html("Task " + (data.count) + " : <b style='color:blue'>Wating...</b>");
+                    // Ajax ------------------------------
+                    setTimeout(function () {
+                        $(data.inputObj).html("Task " + (data.count + 1) + " : <b style='color:green'>Done</b>");
+                        $(document).scroll($(data.inputObj).scrollTop);
+                        vanilaQue.jobDone();// -------> Call to NEXT JOB
+                    }, Math.floor(Math.random() * 6000) + 3000); // time out execute 2.5 sec to 3 sec random number in milisecond
+                    //----------------------------------------
+                }, { count: index, inputObj: temp });
+            }
+            vanilaQue.isDone(function () {
+                alert("All Done");
+            });
+            vanilaQue.runJobs();
+            return false;
         }
-        vanilaQue.isDone(function () {
-            $(".blog").append("<br/><br/> <b style='color:green'>All Queues are done...</b>");
-        });
-        vanilaQue.runJobs();
+
 //# sourceMappingURL=index.js.map
     </script>
 
