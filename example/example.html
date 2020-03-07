@@ -5,9 +5,8 @@
     <title>example document...</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
@@ -34,12 +33,12 @@
         <hr />
         <fieldset>
             <form action="get" onsubmit="return executeThreads()">
-                Tasks : <input type="number" id="taskCount" min="1" max="1000" value="100" required />
-                Threads : <input type="number" id="threadCount"  min="1" max="1000" value="10" required />
+                Tasks : <input type="number" id="taskCount" min="1" step="1" value="100" required />
+                Threads : <input type="number" id="threadCount" min="1" step="1" max="1000" value="10" required />
                 <button>Save & Execute</button>
             </form>
         </fieldset>
-        <br/>
+        <br />
     </center>
 
 
@@ -61,7 +60,7 @@
                     // Ajax ------------------------------
                     setTimeout(function () {
                         $(data.inputObj).html("Task " + (data.count + 1) + " : <b style='color:green'>Done</b>");
-                        $(document).scroll($(data.inputObj).scrollTop);
+                        $(data.inputObj).fadeOut();
                         vanilaQue.jobDone();// -------> Call to NEXT JOB
                     }, Math.floor(Math.random() * 6000) + 3000); // time out execute 2.5 sec to 3 sec random number in milisecond
                     //----------------------------------------

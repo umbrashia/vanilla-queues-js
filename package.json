@@ -1,6 +1,6 @@
 {
   "name": "vanilla-queues-js",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "create jobs in queues this can be handle in node, typescript, angular, react, vue, and all js based framework",
   "main": "index.js",
   "scripts": {
