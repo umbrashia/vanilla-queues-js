@@ -52,6 +52,8 @@ class VanillaQueues<returnType> implements IVanillaQueues<returnType> {
      * name
      */
     public runJobs(): void {
+        if (this._stackJobs.length <= this._queueCount)
+            this._queueCount = this._stackJobs.length;
         this._stackJobs = this._stackJobs.reverse();
         this.queueActual = this._queueCount;
         for (let index = 0; index < this._queueCount; index++) {
@@ -76,7 +78,7 @@ class VanillaQueues<returnType> implements IVanillaQueues<returnType> {
         callback: queueCallback<returnType>;
         data: returnType;
     }[];
-   
+
 
     private _queueCount: number;
 
@@ -92,9 +94,10 @@ class VanillaQueues<returnType> implements IVanillaQueues<returnType> {
 
 export { VanillaQueues, queueCallback, IVanillaQueues };
 
-// let vanilaQue = new VanillaQueues<number>(1);
-// for (let index = 0; index < 10; index++) {
+// let vanilaQue = new VanillaQueues<number>(10);
+// for (let index = 0; index < 5; index++) {
 //     vanilaQue.addJob((data, counter) => {
+//         console.log(counter,"****");
 //         setTimeout(() => {
 //             console.log(data, "------> executed ---->", counter);
 //             vanilaQue.jobDone();

@@ -15,6 +15,8 @@ var VanillaQueues = /** @class */ (function () {
      * name
      */
     VanillaQueues.prototype.runJobs = function () {
+        if (this._stackJobs.length <= this._queueCount)
+            this._queueCount = this._stackJobs.length;
         this._stackJobs = this._stackJobs.reverse();
         this.queueActual = this._queueCount;
         for (var index = 0; index < this._queueCount; index++) {
@@ -46,9 +48,10 @@ var VanillaQueues = /** @class */ (function () {
     return VanillaQueues;
 }());
 exports.VanillaQueues = VanillaQueues;
-// let vanilaQue = new VanillaQueues<number>(1);
-// for (let index = 0; index < 10; index++) {
+// let vanilaQue = new VanillaQueues<number>(10);
+// for (let index = 0; index < 5; index++) {
 //     vanilaQue.addJob((data, counter) => {
+//         console.log(counter,"****");
 //         setTimeout(() => {
 //             console.log(data, "------> executed ---->", counter);
 //             vanilaQue.jobDone();

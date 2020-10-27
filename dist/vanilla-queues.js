@@ -13,6 +13,8 @@ var VanillaQueues = /** @class */ (function () {
      * name
      */
     VanillaQueues.prototype.runJobs = function () {
+        if (this._stackJobs.length <= this._queueCount)
+            this._queueCount = this._stackJobs.length;
         this._stackJobs = this._stackJobs.reverse();
         this.queueActual = this._queueCount;
         for (var index = 0; index < this._queueCount; index++) {
