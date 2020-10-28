@@ -1,7 +1,7 @@
 {
   "name": "vanilla-queues-js",
-  "version": "1.0.6",
-  "description": "create jobs in queues/threads this can be handle in node, typescript, angular, react, vue, and all js based framework",
+  "version": "1.0.7",
+  "description": "create async jobs in queues/threads this can be handle in node, typescript, angular, react, vue, and all js based framework",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -32,7 +32,7 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/umbrashia/vanilla-queues-js/issues",
-    "email":"shantanu34@outlook.com",
+    "email":"shantanu34@outlook.com"
   },
   "homepage": "https://umbrashia.github.io/vanilla-queues-js/"
 }

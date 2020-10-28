@@ -1,5 +1,5 @@
 # vanilla-queues-js
-create and manage queues threads in core javascript or Vanilla JS it can be use any javascript framework like ReactJs, Angular React-Native and VueJs 
+create and manage async jobs queues/threads  in core javascript or Vanilla JS it can be use any javascript framework like ReactJs, Angular React-Native and VueJs 
 
 
 Please see in the [EXAMPLE / DEMO](https://umbrashia.github.io/vanilla-queues-js/example/example.html) 
@@ -27,9 +27,12 @@ for (let index = 0; index < 100; index++) {
     }, index);
 }
 
+//When all jobs are done this method notify you...
 vanilaQue.isDone(() => {
     console.log("All Jobs are done...");
 });
+// Execute threads ....
+vanilaQue.runJobs();
 
 ```
 
@@ -59,5 +62,8 @@ vanilaQue.isDone(() => {
         console.log("oeeeeee done...");
 
     });
+    // Execute threads ....
+    vanilaQue.runJobs();
+
 </script>
 ```
