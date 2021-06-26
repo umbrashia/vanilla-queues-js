@@ -67,3 +67,14 @@ vanilaQue.runJobs();
 
 </script>
 ```
+
+### Other Useful Methods
+
+```
+var vanilaQue = new VanillaQueues<number>(5);
+```
+
+- `PAUSE` - pause all task and return callback function. ``` vanilaQue.pause(()=>console.log("pause successfully...")
+),```
+- `STOP` - Stop all task.``` vanilaQue.stop() ```
+- `RESUME` - Resume pause task, note: only pause tast are only to be resume. ``` vanilaQue.resume() ```
