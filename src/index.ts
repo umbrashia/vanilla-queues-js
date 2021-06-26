@@ -4,14 +4,20 @@
  * @param counter job count execution by queue machine runJobs
  */
 interface queueCallback<returnType> {
-    (data: returnType, counter: number): void;
+    (data: returnType, counter: number): void
 }
 
 interface IVanillaQueues<returnType> {
+    // myCallback;
     /**
      * total count index start from 0
      */
     queueCount: number;
+
+    /**
+     * calculate pause count...
+     */
+    pauseCount: number;
     /**
      * grobal array to mark as complete all jobs
      * @param callback an evert is on succes
@@ -23,6 +29,10 @@ interface IVanillaQueues<returnType> {
      * @param transferData callback data ewcive
      */
     addJob(callback: queueCallback<returnType>, transferData: returnType): void;
+    breakCall(callback: () => void, everyNumberJobDone: number): void;
+    pause(): void;
+    resume(): void;
+    stop():void;
     runJobs(): void;
     jobDone(): void;
 }
@@ -31,8 +41,15 @@ interface IVanillaQueues<returnType> {
 
 class VanillaQueues<returnType> implements IVanillaQueues<returnType> {
 
-    private doneCallback: () => void;
-    private queueActual: number;
+    private doneCallback: () => void = function () { };
+    private pauseCallback: () => void = function () { };
+    private queueActual: number = 0;
+    private isPause: boolean = false;
+    // private 
+    private _stackJobs: {
+        callback: queueCallback<returnType>;
+        data: returnType;
+    }[];
 
     constructor(queueCountInit?: number) {
 
@@ -42,9 +59,32 @@ class VanillaQueues<returnType> implements IVanillaQueues<returnType> {
             this._queueCount = 5;
         this._stackJobs = [];
     }
+    stop(): void {
+        this._stackJobs=[];
+        this.queueActual=0;
+    }
+
+    breakCall(callback: () => void, everyNumberJobDone: number): void {
+        if (!everyNumberJobDone)
+            throw new Error("Method not implemented.");
+    }
+
+    pauseCount: number = 0;
+
+    public pause(callback?: () => void): void {
+        if (callback)
+            this.pauseCallback = callback;
+        this.isPause = true;
+    }
+    public resume(): void {
+        this.isPause = false;
+        for (let index = this.pauseCount; index > 0; index--)
+            this.jobDone();
+        this.pauseCount = 0;
+    }
 
     public addJob(callback: queueCallback<returnType>, transferData: returnType): void {
-        this._stackJobs.push({ callback: callback, data: transferData });
+        this._stackJobs.push({ callback, data: transferData });
     }
 
 
@@ -58,27 +98,24 @@ class VanillaQueues<returnType> implements IVanillaQueues<returnType> {
         this.queueActual = this._queueCount;
         for (let index = 0; index < this._queueCount; index++) {
             let runInstance = this._stackJobs.pop();
-            runInstance.callback(runInstance.data, index);
+            runInstance?.callback(runInstance.data, index);
         }
     }
 
     public jobDone(): void {
-        if (this._stackJobs.length !== 0) {
-            let runInstance = this._stackJobs.pop();
-            runInstance.callback(runInstance.data, this._queueCount++);
-        } else if (--this.queueActual === 0)
-            this.doneCallback();
+        if (!this.isPause) {
+            if (this._stackJobs.length !== 0) {
+                let runInstance = this._stackJobs.pop();
+                runInstance?.callback(runInstance.data, this._queueCount++);
+            } else if (--this.queueActual === 0)
+                this.doneCallback();
+        } else if (this.queueActual == ++this.pauseCount)
+            this.pauseCallback();
     }
 
     public isDone(callback: () => void): void {
         this.doneCallback = callback;
     }
-
-    private _stackJobs: {
-        callback: queueCallback<returnType>;
-        data: returnType;
-    }[];
-
 
     private _queueCount: number;
 
@@ -93,22 +130,3 @@ class VanillaQueues<returnType> implements IVanillaQueues<returnType> {
 }
 
 export { VanillaQueues, queueCallback, IVanillaQueues };
-
-// let vanilaQue = new VanillaQueues<number>(10);
-// for (let index = 0; index < 5; index++) {
-//     vanilaQue.addJob((data, counter) => {
-//         console.log(counter,"****");
-//         setTimeout(() => {
-//             console.log(data, "------> executed ---->", counter);
-//             vanilaQue.jobDone();
-//         }, Math.floor(Math.random() * 3000) + 1000);//Math.floor(Math.random() * 2000) +
-//     }, index);
-// }
-
-// vanilaQue.isDone(() => {
-//     console.log("oeeeeee done...");
-
-// });
-
-// vanilaQue.runJobs();
-
