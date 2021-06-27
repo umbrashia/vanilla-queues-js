@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VanillaQueues = void 0;
 var VanillaQueues = /** @class */ (function () {
     function VanillaQueues(queueCountInit) {
-        this.doneCallback = function () { };
-        this.pauseCallback = function () { };
         this.queueActual = 0;
         this.isPause = false;
+        this.achivedLaps = 0;
+        this.laps = 0;
         this.pauseCount = 0;
         if (queueCountInit && parseInt(queueCountInit.toString()) >= 1)
             this._queueCount = queueCountInit;
@@ -14,13 +14,14 @@ var VanillaQueues = /** @class */ (function () {
             this._queueCount = 5;
         this._stackJobs = [];
     }
+    VanillaQueues.prototype.achiveLapsNotification = function (callback, countJobsInLap) {
+        if (callback)
+            this.achiveLapsCallback = callback;
+        this.laps = countJobsInLap;
+    };
     VanillaQueues.prototype.stop = function () {
         this._stackJobs = [];
         this.queueActual = 0;
-    };
-    VanillaQueues.prototype.breakCall = function (callback, everyNumberJobDone) {
-        if (!everyNumberJobDone)
-            throw new Error("Method not implemented.");
     };
     VanillaQueues.prototype.pause = function (callback) {
         if (callback)
@@ -54,6 +55,8 @@ var VanillaQueues = /** @class */ (function () {
             if (this._stackJobs.length !== 0) {
                 var runInstance = this._stackJobs.pop();
                 runInstance === null || runInstance === void 0 ? void 0 : runInstance.callback(runInstance.data, this._queueCount++);
+                if (this.laps && (this._queueCount % this.laps) == 0 && this.achiveLapsCallback)
+                    this.achiveLapsCallback();
             }
             else if (--this.queueActual === 0)
                 this.doneCallback();

@@ -14,6 +14,9 @@ for (var index = 0; index < 100; index++) {
 vanilaQue.isDone(function () {
     console.log("oeeeeee done...");
 });
+vanilaQue.achiveLapsNotification(function () {
+    console.log("lap achived...");
+}, 10);
 vanilaQue.runJobs();
 setTimeout(function () { return vanilaQue.pause(function () { return console.log("pause successfully..."); }); }, 10000);
 setTimeout(function () { return vanilaQue.resume(); }, 30000);

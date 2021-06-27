@@ -29,10 +29,10 @@ interface IVanillaQueues<returnType> {
      * @param transferData callback data ewcive
      */
     addJob(callback: queueCallback<returnType>, transferData: returnType): void;
-    breakCall(callback: () => void, everyNumberJobDone: number): void;
+    achiveLapsNotification(callback: () => void, countJobsInLap: number): void;
     pause(): void;
     resume(): void;
-    stop():void;
+    stop(): void;
     runJobs(): void;
     jobDone(): void;
 }
@@ -41,10 +41,13 @@ interface IVanillaQueues<returnType> {
 
 class VanillaQueues<returnType> implements IVanillaQueues<returnType> {
 
-    private doneCallback: () => void = function () { };
-    private pauseCallback: () => void = function () { };
+    private declare doneCallback: () => void;
+    private declare pauseCallback: () => void;
     private queueActual: number = 0;
     private isPause: boolean = false;
+    private achivedLaps: number = 0;
+    private laps: number = 0;
+    private declare achiveLapsCallback: () => void;
     // private 
     private _stackJobs: {
         callback: queueCallback<returnType>;
@@ -59,14 +62,16 @@ class VanillaQueues<returnType> implements IVanillaQueues<returnType> {
             this._queueCount = 5;
         this._stackJobs = [];
     }
-    stop(): void {
-        this._stackJobs=[];
-        this.queueActual=0;
+
+    achiveLapsNotification(callback: () => void, countJobsInLap: number): void {
+        if (callback)
+            this.achiveLapsCallback = callback;
+        this.laps = countJobsInLap;
     }
 
-    breakCall(callback: () => void, everyNumberJobDone: number): void {
-        if (!everyNumberJobDone)
-            throw new Error("Method not implemented.");
+    stop(): void {
+        this._stackJobs = [];
+        this.queueActual = 0;
     }
 
     pauseCount: number = 0;
@@ -107,6 +112,9 @@ class VanillaQueues<returnType> implements IVanillaQueues<returnType> {
             if (this._stackJobs.length !== 0) {
                 let runInstance = this._stackJobs.pop();
                 runInstance?.callback(runInstance.data, this._queueCount++);
+                if (this.laps && (this._queueCount % this.laps) == 0 && this.achiveLapsCallback)
+                    this.achiveLapsCallback();
+
             } else if (--this.queueActual === 0)
                 this.doneCallback();
         } else if (this.queueActual == ++this.pauseCount)

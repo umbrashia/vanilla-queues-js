@@ -78,3 +78,21 @@ var vanilaQue = new VanillaQueues<number>(5);
 ),```
 - `STOP` - Stop all task.``` vanilaQue.stop() ```
 - `RESUME` - Resume pause task, note: only pause tast are only to be resume. ``` vanilaQue.resume() ```
+- `Laps Notification` - Notify by callback user define number of jobs complete. ``` vanilaQue.achiveLapsNotification(CALLBACK,10) ``` "10" means notify you when every 10 jobs are done.
+
+
+### Pause 
+
+```
+vanilaQue.pause(()=>console.log("pause successfully...");
+```
+
+### Laps Notification 
+
+Notify by callback user define number of jobs complete. ``` vanilaQue.achiveLapsNotification(CALLBACK,10) ``` "10" means notify you when every 10 jobs are done.
+
+```
+vanilaQue.achiveLapsNotification(()=>{
+    console.log("lap achived...");
+},10)
+```

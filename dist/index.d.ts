@@ -25,7 +25,7 @@ interface IVanillaQueues<returnType> {
      * @param transferData callback data ewcive
      */
     addJob(callback: queueCallback<returnType>, transferData: returnType): void;
-    breakCall(callback: () => void, everyNumberJobDone: number): void;
+    achiveLapsNotification(callback: () => void, countJobsInLap: number): void;
     pause(): void;
     resume(): void;
     stop(): void;
@@ -37,10 +37,13 @@ declare class VanillaQueues<returnType> implements IVanillaQueues<returnType> {
     private pauseCallback;
     private queueActual;
     private isPause;
+    private achivedLaps;
+    private laps;
+    private achiveLapsCallback;
     private _stackJobs;
     constructor(queueCountInit?: number);
+    achiveLapsNotification(callback: () => void, countJobsInLap: number): void;
     stop(): void;
-    breakCall(callback: () => void, everyNumberJobDone: number): void;
     pauseCount: number;
     pause(callback?: () => void): void;
     resume(): void;

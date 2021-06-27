@@ -16,6 +16,10 @@ vanilaQue.isDone(() => {
 
 });
 
+vanilaQue.achiveLapsNotification(()=>{
+    console.log("lap achived...");
+},10)
+
 vanilaQue.runJobs();
 
 setTimeout(()=>vanilaQue.pause(()=>console.log("pause successfully...")
